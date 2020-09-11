@@ -35,4 +35,5 @@
 
 ### 注意事项
     - 第一次运行可能会出现登录验证链接, 复制到浏览器中验证即可, 注意查看docker日志(docker logs -f complexbot-env)
-    - macOS/Linux 直接运行时java需要添加VM Options 参数-Dcomplexbot.backend.noinstance=true 否则会卡死在com.kenvix.complexbot.ComplexBotDriver#loadBackend$KMiraiBot_main, docker是分开部署的, 没有这个问题
+    - macOS/Linux 直接运行时java需要添加VM Options 参数-Dcomplexbot.backend.noinstance=true 否则会卡死在
+        com.kenvix.complexbot.ComplexBotDriver#loadBackend$KMiraiBot_main, docker是分开部署的, 没有这个问题
