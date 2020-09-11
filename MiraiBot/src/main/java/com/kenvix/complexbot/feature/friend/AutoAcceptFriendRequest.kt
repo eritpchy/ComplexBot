@@ -23,8 +23,5 @@ object AutoAcceptFriendRequest : BotFeature {
                 this.reject(false)
         }
 
-        bot.subscribeAlways<FriendAddEvent> {
-            friend.sendMessage("添加好友成功。输入 .help 查看使用帮助")
-        }
     }
 }
