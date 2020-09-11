@@ -48,7 +48,7 @@ abstract class AbstractPunishment : Punishment {
         logger.info("${sender.id}(${sender.nameCardOrNick}) in ${group.id}(${group.name}): $reason")
 
         group.sendMessage(MessageChainBuilder().apply {
-            add("检测到违法用户：")
+            add("检测到违规操作：")
             add(At(sender))
             add(reason)
             add(" <规则名: ${rule?.name} | 惩罚: $name>")
