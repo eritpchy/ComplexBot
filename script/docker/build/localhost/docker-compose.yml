@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+  complexbot-mongodb:
+    container_name: complexbot-mongodb
+    build: ../../mongodb
+    image: "${HUB:-localhost}/complexbot:mongodb"
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+     # linux 用户专属, Windows & macOS 不支持, https://hub.docker.com/_/mongo/
+     - ${MONGODB_DATA_VOL_SRC:-.placeholder}:${MONGODB_DATA_VOL_DST:-/.placeholder}
+
+  complexbot-python:
+    container_name: complexbot-python
+    build: ../../python
+    image: "${HUB:-localhost}/complexbot:python"
+    restart: always
+
+  complexbot-env:
+    container_name: complexbot-env
+    build:
+      context: ../../env
+      args:
+        APPJAR: ./files/KMiraiBot.jar
+    image: "${HUB:-localhost}/complexbot:env"
+    restart: always
+    links:
+      - complexbot-mongodb
+      - complexbot-python
+    depends_on:
+      - complexbot-mongodb
+      - complexbot-python
+    volumes:
+      - ../../env/files/complexbot.yml:/app/config/config/complexbot.yml:ro
+      - ../../env/files/system.yml:/app/config/config/system.yml:ro
