@@ -21,7 +21,7 @@ data class GroupOptions(
 )
 
 data class InspectorOptions(
-        var enabled: Boolean = false,
+        var enabled: Boolean = true,
         val rules: MutableMap<String, String> = mutableMapOf(),
         val white: MutableSet<Long> = mutableSetOf()
 )
