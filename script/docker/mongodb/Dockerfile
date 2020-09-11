@@ -1,0 +1,6 @@
+FROM mongo:4.4.0
+COPY ComplexBot.js /docker-entrypoint-initdb.d/ComplexBot.js
+ENV MONGO_INITDB_ROOT_USERNAME root
+ENV MONGO_INITDB_ROOT_PASSWORD example
+ENV MONGO_INITDB_DATABASE ComplexBot
+EXPOSE 27017

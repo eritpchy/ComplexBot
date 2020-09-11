@@ -8,3 +8,6 @@ build
 out
 MiraiBot/config
 MiraiBot/libs/mirai-core-*-EA*.jar
+script/docker/env/files/complexbot.yml
+script/docker/env/files/system.yml
+script/docker/python/files/backend/
