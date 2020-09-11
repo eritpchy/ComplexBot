@@ -87,8 +87,12 @@ def main(host='127.0.0.1', port=48519):
     logging.info("Loading model CaptchaBreaker ...")
     model_path = "captcha-breaker-v%d.pth" % CaptchaNN.version()
     net = CaptchaNN()
-    net = net.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
-    net.load_state_dict(torch.load(model_path,map_location='cuda' if torch.cuda.is_available() else 'cpu'))
+    if torch.cuda.is_available():
+        net = net.to(torch.device('cuda'))
+        net.load_state_dict(torch.load(model_path))
+    else:
+        net = net.to(torch.device('cpu'))
+        net.load_state_dict(torch.load(model_path, map_location=torch.device('cpu') ))
     net.eval()
     captchaBreaker = CaptchaBreaker(net)
 
