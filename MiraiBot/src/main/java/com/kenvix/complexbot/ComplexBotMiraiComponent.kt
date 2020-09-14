@@ -3,8 +3,6 @@ package com.kenvix.complexbot
 import com.kenvix.android.utils.Coroutines
 import com.kenvix.complexbot.feature.featureRoutes
 import com.kenvix.moecraftbot.ng.lib.error
-import com.kenvix.moecraftbot.ng.lib.warn
-import com.kenvix.utils.event.eventSetOf
 import com.kenvix.utils.log.Logging
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
@@ -12,11 +10,14 @@ import net.mamoe.mirai.Bot
 import net.mamoe.mirai.closeAndJoin
 import net.mamoe.mirai.network.WrongPasswordException
 import net.mamoe.mirai.utils.BotConfiguration
+import java.io.PrintWriter
+import java.io.StringWriter
 import kotlin.coroutines.CoroutineContext
 
+
 class ComplexBotMiraiComponent(
-        private val qq: Long,
-        private val password: String
+    private val qq: Long,
+    private val password: String
 ) : AutoCloseable, Logging {
     private val coroutines = Coroutines()
 
@@ -57,11 +58,18 @@ class ComplexBotMiraiComponent(
     }
 
     private fun onException(coroutineContext: CoroutineContext, exception: Throwable) {
+        logger.info("onException", exception.message)
         error("Mirai Exception on coroutineContext $coroutineContext", exception, logger)
 
         if (exception is WrongPasswordException) {
             logger.warn("Mirai bot failed due to a WrongPasswordException, will restart it after 10s")
             restart(10_000)
+        }
+        var errors = StringWriter()
+        exception.printStackTrace(PrintWriter(errors))
+        if (errors.toString().contains("(BotImpl.kt:94)")) {
+            logger.error("Mirai Bot fatal error [java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0]")
+            System.exit(1)
         }
     }
 
